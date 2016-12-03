@@ -23,6 +23,12 @@ class Api::V1::ItemsController < Api::V1::ApiController
   def update
   end
 
+  def complete
+    item = Item.find params[:id]
+    item.update completed: true
+    render json: { status: true, data: item.to_hash }
+  end
+
   private
 
   def item_params

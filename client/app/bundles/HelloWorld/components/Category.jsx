@@ -32,10 +32,14 @@ export default class Category extends React.Component {
     });
   }
 
+  handleTaskCompleted(task) {
+    this.props.onTaskCompleted(task);
+  }
+
   renderItems(cat) {
     return (<ul className="task-list">
         {cat.items.map((item) => {
-          return <li><Item item={item}/></li>;
+          return <li><Item item={item} onTaskCompleted={this.handleTaskCompleted.bind(this)}/></li>;
         })}
       </ul>)
   }
