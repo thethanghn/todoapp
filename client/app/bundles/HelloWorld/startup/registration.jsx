@@ -1,8 +1,8 @@
 import ReactOnRails from 'react-on-rails';
 
-import HelloWorld from '../components/HelloWorld';
+import Root from '../components/Root';
 
-// This is how react_on_rails can see the HelloWorld in the browser.
+// This is how react_on_rails can see the Root in the browser.
 ReactOnRails.register({
-  HelloWorld,
+  Root,
 });

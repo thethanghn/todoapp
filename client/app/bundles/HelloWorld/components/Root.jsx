@@ -1,6 +1,7 @@
 import React, { PropTypes } from 'react';
+import CategoryRepository from '../api/Category';
 
-export default class HelloWorld extends React.Component {
+export default class Root extends React.Component {
   static propTypes = {
     name: PropTypes.string.isRequired, // this is passed from the Rails view
   };
@@ -14,12 +15,18 @@ export default class HelloWorld extends React.Component {
 
     // How to set initial state in ES6 class syntax
     // https://facebook.github.io/react/docs/reusable-components.html#es6-classes
-    this.state = { name: this.props.name };
+    this.state = { name: this.props.name, categories: [] };
   }
 
   updateName = (name) => {
     this.setState({ name });
   };
+
+  getCategories() {
+    CategoryRepository.getCategories().then(data => {
+      this.setState({categories: data});
+    });
+  }
 
   render() {
     return (
@@ -39,6 +46,14 @@ export default class HelloWorld extends React.Component {
             onChange={(e) => this.updateName(e.target.value)}
           />
         </form>
+        <button onClick={(e) => this.getCategories()}>Click me</button>
+        <ul>
+          {(() => {
+            return this.state.categories.map(cat => {
+              return <li>{cat.name}</li>;
+            });
+          })()}
+        </ul>
       </div>
     );
   }
