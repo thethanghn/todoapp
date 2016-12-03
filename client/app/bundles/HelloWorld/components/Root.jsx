@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import CategoryRepository from '../api/Category';
+import CreateCategoryForm from './CreateCategoryForm';
 
 export default class Root extends React.Component {
   static propTypes = {
@@ -32,16 +33,10 @@ export default class Root extends React.Component {
     });
   }
 
-  handleCreateCategory() {
-    let value = this.categoryInput.value;
-    if (value) {
-      CategoryRepository.createCategory(value).then((response) => {
-        console.log('resonse', response);
-        let categories = this.state.categories;
-        categories.push(response['data']);
-        this.setState({categories: categories, showCatgoryForm: false});
-      }).catch(err => alert(err));
-    }
+  handleCreateCategory(newCategory) {
+    let categories = this.state.categories;
+    categories.push(newCategory);
+    this.setState({categories: categories, showCatgoryForm: false});
   }
 
   renderItems(cat) {
@@ -63,10 +58,7 @@ export default class Root extends React.Component {
 
   renderCategoryForm() {
     if (this.state.showCatgoryForm) {
-      return (<div className="input-group form-category">
-          <input ref={(input) => {this.categoryInput = input;}} type="text" className="form-control" placeholder="Catgory Name"/>
-          <span className="input-group-addon glyphicon glyphicon-pencil" onClick={this.handleCreateCategory.bind(this)}></span>
-        </div>);
+      return (<CreateCategoryForm onSuccess={this.handleCreateCategory.bind(this)}/>);
     }
 
     return null;
