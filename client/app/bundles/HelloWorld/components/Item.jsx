@@ -13,14 +13,22 @@ export default class Item extends React.Component {
     this.state = { };
   }
 
+  handleCompleteTask(item) {
+
+  }
+
   render() {
     let item = this.props.item;
-    return (<div>
-      <h4 className="text-success">{item.name}</h4>
-      <small className="text-info">
-        {item.description}
-        <span className="pull-right">{moment(item.created_at).fromNow()}</span>
-      </small>
+    return (<div className="item">
+      <h4 className="text-success">{item.name}
+        <span className="pull-right glyphicon glyphicon-ok-circle" onClick={this.handleCompleteTask.bind(this, item)}></span>
+      </h4>
+      <div className="clearfix">
+        <small className="text-info">
+          {item.description}
+          <span className="pull-right">{moment(item.created_at).fromNow()}</span>
+        </small>
+      </div>
     </div>);
   }
 };

@@ -51,8 +51,8 @@ export default class Category extends React.Component {
   render() {
     let cat = this.props.category;
     return (<div className="category">
-        <h3 className="text-primary">{cat.name}
-          <span className="pull-right glyphicon glyphicon-remove-circle" onClick={this.handleDeleteCategory.bind(this, cat)}></span>
+        <h3 className="text-primary title">{cat.name}
+          <span className="pull-right glyphicon glyphicon-minus" onClick={this.handleDeleteCategory.bind(this, cat)}></span>
         </h3>
         <div className="content">
           {this.renderItems(cat)}
