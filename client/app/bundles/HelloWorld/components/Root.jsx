@@ -1,5 +1,6 @@
 import React, { PropTypes } from 'react';
 import CategoryRepository from '../api/Category';
+import CreateCategoryForm from './CreateCategoryForm';
 
 export default class Root extends React.Component {
   static propTypes = {
@@ -13,17 +14,16 @@ export default class Root extends React.Component {
   constructor(props, _railsContext) {
     super(props);
 
-    console.log('props', props.data);
     // How to set initial state in ES6 class syntax
     // https://facebook.github.io/react/docs/reusable-components.html#es6-classes
-    this.state = { name: this.props.name, categories: [], showCatgoryForm: false };
+    this.state = { categories: props.data, showCatgoryForm: false };
   }
 
   updateName = (name) => {
     this.setState({ name });
   };
 
-  handleCreateCategory() {
+  showCreateCategoryForm() {
     this.setState({showCatgoryForm: true});
   }
 
@@ -31,6 +31,12 @@ export default class Root extends React.Component {
     CategoryRepository.getCategories().then(data => {
       this.setState({categories: data});
     });
+  }
+
+  handleCreateCategory(newCategory) {
+    let categories = this.state.categories;
+    categories.push(newCategory);
+    this.setState({categories: categories, showCatgoryForm: false});
   }
 
   renderItems(cat) {
@@ -42,7 +48,7 @@ export default class Root extends React.Component {
   }
 
   renderCategories() {
-    return this.props.data.map((cat) => {
+    return this.state.categories.map((cat) => {
       return (<div>
         <h3 className="text-primary">{cat.name}</h3>
         {this.renderItems(cat)}
@@ -52,10 +58,7 @@ export default class Root extends React.Component {
 
   renderCategoryForm() {
     if (this.state.showCatgoryForm) {
-      return (<div className="input-group form-category">
-          <input type="text" className="form-control" placeholder="Catgory Name"/>
-          <span className="input-group-addon glyphicon glyphicon-pencil"></span>
-        </div>);
+      return (<CreateCategoryForm onSuccess={this.handleCreateCategory.bind(this)}/>);
     }
 
     return null;
@@ -65,7 +68,7 @@ export default class Root extends React.Component {
     return (
       <div>
         {this.renderCategories()}
-        <a className="btn-block btn-link btn-create-category" onClick={this.handleCreateCategory.bind(this)}>Create category</a>
+        <a className="btn-block btn-link btn-create-category" onClick={this.showCreateCategoryForm.bind(this)}>Create category</a>
         {this.renderCategoryForm()}
       </div>
     );

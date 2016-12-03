@@ -10,7 +10,7 @@ class Api::V1::CategoriesController < Api::V1::ApiController
   def create
     category = Category.new category_params
     if category.save
-      render json: { status: true }
+      render json: { status: true, data: category.to_hash }
     else
       render json: { status: false, errors: category.errors.full_messages }
     end
