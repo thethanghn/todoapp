@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
+
   root 'home#index'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
-  namespace :api do
+  namespace :api, defaults: {format: :json} do
     namespace :v1 do
-      resources :categories, defaults: {format: :json}
+      resources :categories
+      resources :items
     end
   end
 end
