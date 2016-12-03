@@ -1,6 +1,8 @@
 import React, { PropTypes } from 'react';
 import CategoryRepository from '../api/Category';
 import CreateCategoryForm from './CreateCategoryForm';
+import Category from './Category';
+import _ from 'lodash';
 
 export default class Root extends React.Component {
   static propTypes = {
@@ -39,20 +41,15 @@ export default class Root extends React.Component {
     this.setState({categories: categories, showCatgoryForm: false});
   }
 
-  renderItems(cat) {
-    return (<ul>
-        {cat.items.map((item) => {
-          return <li>{item.name}</li>;
-        })}
-      </ul>)
+  handleDeleteCategory(deletedCategory) {
+    let categories = this.state.categories;
+    _.remove(categories, (c) => c.id == deletedCategory.id);
+    this.setState({categories: categories}); 
   }
 
   renderCategories() {
     return this.state.categories.map((cat) => {
-      return (<div>
-        <h3 className="text-primary">{cat.name}</h3>
-        {this.renderItems(cat)}
-      </div>);
+      return (<Category category={cat} onDelete={this.handleDeleteCategory.bind(this)}/>);
     });
   }
 

@@ -22,6 +22,12 @@ class Api::V1::CategoriesController < Api::V1::ApiController
   def update
   end
 
+  def destroy
+    category = Category.find params[:id]
+    category.destroy
+    render json: { status: true }
+  end
+
   private
 
   def category_params
