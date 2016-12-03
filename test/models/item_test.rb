@@ -7,6 +7,8 @@
 #  category_id :integer
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
+#  description :string
+#  completed   :boolean          default(FALSE)
 #
 
 require 'test_helper'

@@ -31,3 +31,35 @@
     top: 0 !important;
   }
 }
+
+.form-task {
+  input, textarea, button {
+    margin: 2px 0;
+  }
+}
+
+.category {
+  .title {
+    .glyphicon-minus {
+      color: red;
+    }
+  }
+  ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .content {
+    padding-left: 20px;
+  }
+}
+
+.item {
+  .glyphicon-ok-circle {
+    color: green;
+  }
+
+  .glyphicon-ban-circle {
+    color: red;
+  }
+}

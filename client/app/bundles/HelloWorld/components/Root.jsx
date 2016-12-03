@@ -6,7 +6,7 @@ import _ from 'lodash';
 
 export default class Root extends React.Component {
   static propTypes = {
-    data: PropTypes.object.isRequired, // this is passed from the Rails view
+    data: PropTypes.array.isRequired, // this is passed from the Rails view
   };
 
   /**
@@ -47,9 +47,24 @@ export default class Root extends React.Component {
     this.setState({categories: categories}); 
   }
 
+  handleTaskCreated(task) {
+    let categories = this.state.categories;
+    let cat = _.find(categories, (c) => c.id == task.category_id);
+    cat.items.push(task);
+    this.setState({categories: categories});
+  }
+
+  handleTaskCompleted(task) {
+    let categories = this.state.categories;
+    let cat = _.find(categories, (c) => c.id == task.category_id);
+    _.remove(cat.items, (i) => i.id == task.id);
+    cat.items.push(task);
+    this.setState({categories: categories});
+  }
+
   renderCategories() {
-    return this.state.categories.map((cat) => {
-      return (<Category category={cat} onDelete={this.handleDeleteCategory.bind(this)}/>);
+    return this.state.categories.map((cat, i) => {
+      return (<Category key={i} category={cat} onDelete={this.handleDeleteCategory.bind(this)} onTaskCreated={this.handleTaskCreated.bind(this)} onTaskCompleted={this.handleTaskCompleted.bind(this)}/>);
     });
   }
 

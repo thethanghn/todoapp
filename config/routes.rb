@@ -5,7 +5,11 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: :json} do
     namespace :v1 do
       resources :categories
-      resources :items
+      resources :items do
+        member do
+          get :complete
+        end
+      end
     end
   end
 end
