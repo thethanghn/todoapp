@@ -11,7 +11,7 @@ class Api::V1::ItemsController < Api::V1::ApiController
   def create
     item = Item.new item_params
     if item.save
-      render json: { status: true }
+      render json: { status: true, data: item.to_hash }
     else
       render json: { status: false, errors: item.errors.full_messages }
     end
@@ -26,6 +26,6 @@ class Api::V1::ItemsController < Api::V1::ApiController
   private
 
   def item_params
-    params.require(:item).permit(:name, :category_id)
+    params.require(:item).permit(:name, :category_id, :description)
   end
 end

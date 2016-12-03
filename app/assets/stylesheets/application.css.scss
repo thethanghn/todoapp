@@ -31,3 +31,20 @@
     top: 0 !important;
   }
 }
+
+.form-task {
+  input, textarea, button {
+    margin: 2px 0;
+  }
+}
+
+.category {
+  ul, li {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+  .content {
+    padding-left: 20px;
+  }
+}
