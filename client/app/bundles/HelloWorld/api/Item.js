@@ -9,6 +9,22 @@ class ItemRepository {
   completeTask(id) {
     return $.get(`/api/v1/items/${id}/complete`);
   }
+
+  updateTask(id, name, description) {
+    return new Promise((resolve, reject) => {
+      $.ajax({
+        url: `/api/v1/items/${id}`,
+        data: { item: { name: name, description: description }},
+        type: 'PUT',
+        success: (response) => {
+          resolve(response);
+        },
+        error: (error) => {
+          reject(error);
+        }  
+      });
+    });
+  }
 }
 
 export default new ItemRepository()

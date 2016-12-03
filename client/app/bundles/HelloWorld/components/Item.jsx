@@ -5,7 +5,8 @@ import moment from 'moment';
 export default class Item extends React.Component {
   static propTypes = {
     item: PropTypes.object.isRequired,
-    onTaskCompleted: PropTypes.func
+    onTaskCompleted: PropTypes.func,
+    onTaskEditing: PropTypes.func,
   };
 
   constructor(props) {
@@ -18,6 +19,10 @@ export default class Item extends React.Component {
     ItemRepository.completeTask(item.id).then((response) => {
       this.props.onTaskCompleted(response['data']);
     });
+  }
+
+  handleEditTask(item) {
+    this.props.onTaskEditing(item);
   }
 
   renderText(text) {
@@ -34,7 +39,12 @@ export default class Item extends React.Component {
       <h4 className="text-success">{this.renderText(item.name)}
         {(() => {
           if (!item.completed) {
-            return <span className="pull-right glyphicon glyphicon-ok-circle" onClick={this.handleCompleteTask.bind(this, item)}></span>;
+            return (
+              <div className="pull-right">
+                <span className="glyphicon glyphicon-ok-circle" onClick={this.handleCompleteTask.bind(this, item)}></span>
+                <span className="glyphicon glyphicon-pencil" onClick={this.handleEditTask.bind(this, item)}></span>
+              </div>
+            );
           }
           return null;
         })()}

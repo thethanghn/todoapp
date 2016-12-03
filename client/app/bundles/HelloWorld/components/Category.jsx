@@ -13,7 +13,7 @@ export default class Category extends React.Component {
   constructor(props) {
     super(props);
 
-    this.state = { showTaskForm: false };
+    this.state = { showTaskForm: false, editingItem: null };
   }
 
   showCreateTaskForm() {
@@ -36,17 +36,21 @@ export default class Category extends React.Component {
     this.props.onTaskCompleted(task);
   }
 
+  handleItemEditing(task) {
+    this.setState({showTaskForm: true, editingItem: task});
+  }
+
   renderItems(cat) {
     return (<ul className="task-list">
         {cat.items.map((item) => {
-          return <li><Item item={item} onTaskCompleted={this.handleTaskCompleted.bind(this)}/></li>;
+          return <li><Item item={item} onTaskCompleted={this.handleTaskCompleted.bind(this)} onTaskEditing={this.handleItemEditing.bind(this)}/></li>;
         })}
       </ul>)
   }
 
-  renderTaskForm(cat) {
+  renderTaskForm(cat, item) {
     if (this.state.showTaskForm) {
-      return <CreateTaskForm category={cat} onSuccess={this.handleTaskCreated.bind(this)}/>
+      return <CreateTaskForm category={cat} onSuccess={this.handleTaskCreated.bind(this)} item={this.state.editingItem}/>
     }
 
     return null;
